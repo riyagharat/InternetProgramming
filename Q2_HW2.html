@@ -1,0 +1,59 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!-- Exercise 6.31 Solution -->
+
+<html xmlns = "http://www.w3.org/1999/xhtml">
+	<head>
+		<script type = "text/javascript">		
+			var number; // number entered by the user
+			// read the number from the prompt box as a string
+			number = window.prompt("Please enter a 4 digit integer.");
+			
+			// convert the number read to an output array
+			var digits = [];
+			
+			// split the number inputted into 4 separate numbers in an array
+			while (number > 0) {
+				digits[digits.length] = number % 10;
+				number = parseInt(number / 10);
+			}
+			digits.reverse();
+			
+			// Add 7 to the number and mod it by 10
+			for(i = 0; i < digits.length; i++){
+				var temp = digits[i];
+				temp = temp + 7;
+				temp = temp % 10;
+				digits[i] = temp;
+			}
+			
+			// function to swap the odd digits
+			function swapOdd(digits){
+				var oddTemp = digits[0];
+				digits[0] = digits[2];
+				digits[2] = oddTemp;
+			}
+			
+			// function to swap the even digits
+			function swapEven(digits){
+				var evenTemp = digits[1];
+				digits[1] = digits[3];
+				digits[3] = evenTemp;
+			}
+				
+			// calling the functions	
+			swapOdd(digits);	
+			swapEven(digits);
+			
+			// joins the array backinto a single string
+			var digits2 = digits.join('');
+			
+			// printts the result vis HTML
+			document.write( "<p> The encrypted integer is: " + digits2 + "</p>");
+		</script>
+	</head>
+</html>

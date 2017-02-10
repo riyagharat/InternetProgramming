@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!-- Exercise 6.31 Solution -->
+
+<html xmlns = "http://www.w3.org/1999/xhtml">
+	<head>
+		<script type = "text/javascript">		
+			// create a table and pass numbers to the square and cubed mehods
+			document.write( "<table width = '10%' border = '1' bgcolor = 'ff8c00'><tr> " + "<th><font color = '#ffffff'>number</th> <th><font color = '#ffffff'>square</th> <th><font color = '#ffffff'>cube</th>" );
+			document.write( "<tr bgcolor = '#f5deb3'><th>" + 0 + "</th>" + "<th>" + square(0) + "</th>" + "<th>" + cubed(0) + "</th></tr>" );
+			document.write( "<tr bgcolor = 'ffffff'><th>" + 1 + "</th>" + "<th>" + square(1) + "</th>" + "<th>" + cubed(1) + "</th></tr>" );
+			document.write( "<tr bgcolor = '#f5deb3'><th>" + 2 + "</th>" + "<th>" + square(2) + "</th>" + "<th>" + cubed(2) + "</th></tr>" );
+			document.write( "<tr bgcolor = 'ffffff'><th>" + 3 + "</th>" + "<th>" + square(3) + "</th>" + "<th>" + cubed(3) + "</th></tr>" );
+			document.write( "<tr bgcolor = '#f5deb3'><th>" + 4 + "</th>" + "<th>" + square(4) + "</th>" + "<th>" + cubed(4) + "</th></tr>" );
+			document.write( "<tr bgcolor = 'ffffff'><th>" + 5 + "</th>" + "<th>" + square(5) + "</th>" + "<th>" + cubed(5) + "</th></tr>" );
+			document.write( "</table>" );
+			
+			function square(x){
+				return x*x;
+			}
+			
+			function cubed(y){
+				return y*y*y;
+			}			
+		</script>
+	</head>
+</html>

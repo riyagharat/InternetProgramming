@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!-- Exercise 6.31 Solution -->
+
+<html xmlns = "http://www.w3.org/1999/xhtml">
+	<head>
+		<title> Question 3 </title>
+		<script type = "text/javascript">		
+			// variables to define the number of times its heads and the number of times its tails
+			var heads = 0;
+			var tails = 0;
+			
+			//
+			function toss(){
+				var headsField = document.getElementById("heads");
+				var tailsField = document.getElementById("tails");
+				
+				if(flip()){
+					++heads;
+					headsField.value = heads;
+				}else{
+					++tails;
+					tailsField.value = tails;
+				}
+			} // End function toss
+			
+			function flip(){
+				return Math.floor(Math.random() * 2) == 1
+			} // End function flip
+		</script>
+	</head>
+	<body>
+<form action = "">
+	<table border = "1">
+		<tr><td>Heads</td>
+		<td><input id = "heads" type = "text" /></td>
+		</tr>
+		<tr><td>Tails</td>
+		<td><input id = "tails" type = "text" /></td>
+		</tr>
+		<tr><td><input type = "button" value = "Flip Coin" onclick = "toss()" /></td></tr>
+	</table>
+</form>
+</html>
