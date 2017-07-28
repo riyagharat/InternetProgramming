@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" ecoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="846_hw4.css"/>
+		<script language="javascript" type="text/javascript" >
+			var xmlhttp = new XMLHttpRequest();
+			var xmlhttp2 = new XMLHttpRequest();
+			var mainArtistID;
+			var mainArtistID2;
+			
+			function searchArtists(artist){
+				var listBox = document.getElementById('results');
+				listBox.innerHTML = "";
+				xmlhttp.onreadystatechange = function (){
+						if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+							var data = JSON.parse(xmlhttp.responseText);
+							console.log(data);
+
+							for(var i = 0; i < data.artists.items.length; i++){
+								var entry = document.createElement("div");
+								var field = document.createElement("fieldset");
+								entry.onclick = function() {getInfo(this, data.artists.items[this.id].id);};
+								entry.id = i;
+								entry.innerHTML = data.artists.items[i].name;
+								field.appendChild(entry);
+								listBox.appendChild(field);
+							}
+						}
+					}
+					
+				xmlhttp.open("GET", "https://api.spotify.com/v1/search?q=" + artist + "&type=artist", true);
+				xmlhttp.send();
+			}
+
+			function getInfo(entry, artistID){
+				mainArtistID = artistID;
+				mainArtistID2 = artistID;
+				document.getElementById('results header').innerHTML = "<strong><h2> Results: </h2></strong>";	
+				var listBox = document.getElementById('results');
+				listBox.innerHTML = "";
+				document.getElementById('genres header').innerHTML = "<strong><h2> Genres: </h2></strong>";	
+				var gBox = document.getElementById('genres');
+				gBox.innerHTML = "";
+				xmlhttp.onreadystatechange = function (){
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+						var data = JSON.parse(xmlhttp.responseText);
+						console.log(data);
+						
+						var field = document.createElement("fieldset");
+						
+						var artist = document.createElement("div");
+						artist.innerHTML = "<strong> Name: </strong>" + data.name;
+						var popularity = document.createElement("div");
+						popularity.innerHTML = "<strong> Popularity: </strong>" + data.popularity;
+							
+						field.appendChild(artist);
+						field.appendChild(popularity);					
+						listBox.appendChild(field);
+						
+						var gfield = document.createElement("fieldset");
+						
+						for(var i = 0; i < data.genres.length; i++){
+							var genre = document.createElement("div");
+							genre.id = i;
+							genre.innerHTML = "\u2022 " + data.genres[i];
+							gfield.appendChild(genre);
+							gBox.appendChild(gfield);
+						}
+						
+						relatedArtists(entry, mainArtistID);
+					
+						artistAlbums(entry, mainArtistID2);
+						
+					}
+				}
+				
+				xmlhttp.open("GET", "https://api.spotify.com/v1/artists/" + artistID, true);
+				xmlhttp.send();
+			}
+			
+			function relatedArtists(entry, mainArtistID){
+				document.getElementById('related header').innerHTML = "<strong><h2> Related Artists: </h2></strong>";	
+				var listBoxra = document.getElementById('related');
+				listBoxra.innerHTML = "";
+				xmlhttp2.onreadystatechange = function (){
+					if(xmlhttp2.readyState == 4 && xmlhttp2.status == 200){
+						var data = JSON.parse(xmlhttp2.responseText);
+						console.log(data);
+						
+						var field2 = document.createElement("fieldset");
+						
+						for(var i = 0; i < data.artists.length; i++){
+							var relatedArtist = document.createElement("div");
+							relatedArtist.id = i;
+							relatedArtist.innerHTML = "\u2022 " + data.artists[i].name;
+							field2.appendChild(relatedArtist);
+							listBoxra.appendChild(field2);
+						}
+						
+					}
+				}
+				
+				xmlhttp2.open("GET", "https://api.spotify.com/v1/artists/" + mainArtistID + "/related-artists", true);
+				xmlhttp2.send();
+			}
+			
+			function artistAlbums(entry, mainArtistID2){
+				document.getElementById('albums header').innerHTML = "<strong><h2> Albums: </h2></strong>";	
+				var listBoxaa = document.getElementById('albums');
+				listBoxaa.innerHTML = "";
+				xmlhttp.onreadystatechange = function (){
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+						var data = JSON.parse(xmlhttp.responseText);
+						console.log(data);
+						
+						var afield = document.createElement("fieldset");
+						
+						for(var i = 0; i < data.items.length; i++){
+							var albumName = document.createElement("div");
+							albumPic = new Image();
+							albumName.id = i;
+							albumName.innerHTML = data.items[i].name;
+							albumPic.src = data.items[i].images[1].url;
+							afield.appendChild(albumName);
+							afield.appendChild(albumPic);
+							listBoxaa.appendChild(afield);
+						}
+						
+					}
+				}
+				
+				xmlhttp.open("GET", "https://api.spotify.com/v1/artists/" + mainArtistID2 + "/albums?market=US&album_type=album&limit=3", true);
+				xmlhttp.send();
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div id="header" class="container">
+			<h1>Index Page</h1>
+			<p>Riya Gharat, N00901846, Assignment 4 </p>
+		</div>
+		<h2>Search for an Artist</h2>
+		
+		<input id="query" type="text" value="" placeholder="Type an Artist Name" />
+		<input type="button" value="Search" onclick="searchArtists(document.getElementById('query').value)"/>
+		<p id="results header"></p>
+		<p id="results"></p>
+		<p id="genres header"></p>
+		<p id="genres"></p>
+		<p id="related header"></p>
+		<p id="related"></p>
+		<p id="albums header"></p>
+		<div class="imgContainer">
+			<p id="albums"></p>
+		</div>
+	</body>
+</html>

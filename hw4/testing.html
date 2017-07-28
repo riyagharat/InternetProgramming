@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" ecoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="846_hw4.css"/>
+		<script language="javascript" type="text/javascript" >
+			var xmlhttp = new XMLHttpRequest();
+			
+			function searchArtists(artist){
+			// You use the variabe regardless of what the state is, grab it once.
+			var listBox = document.getElementById('results');
+			// This is not ideal but for what you're doing it's fine.
+			listBox.innerHTML = "";
+			//window.prompt(artist);
+			//	document.write(artist);
+				xmlhttp.onreadystatechange = function (){
+					// Leaving this to show that you can put multiple arguments in console.log()
+					//console.log(xmlhttp.readyState, xmlhttp.status)
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+						var data = JSON.parse(xmlhttp.responseText);
+						console.log(data);
+						
+						//This line was:
+						// for(var i = 0; i < data.length; ++i){
+						// 1. Your response is a json object not an array
+						// 2. Javascript arrays start from zero
+						for(var i = 0; i < data.artists.items.length; i++){
+							var entry = document.createElement("div");
+							var field = document.createElement("fieldset");
+							entry.id = i;
+							entry.innerHTML = data.artists.items[i].name;
+							field.appendChild(entry);
+							listBox.appendChild(field);
+						}
+					}else{
+						// Don't do this, use the DOM model
+						//listBox.innerHTML = "<strong> Processing </strong>";		
+					}
+				}
+				
+				xmlhttp.open("GET", "https://api.spotify.com/v1/search?q=" + artist + "&type=artist", true);
+				xmlhttp.send();
+			}	
+		</script>
+	</head>
+	<body>
+		<div id="header" class="container">
+			<h1>Index Page</h1>
+			<p>Riya Gharat, N00901846, Assignment 4 </p>
+		</div>
+		<h2>Search for an Artist</h2>
+		
+		<input id="query" type="text" value="" placeholder="Type an Artist Name" />
+		<input type="button" value="Search" onclick="searchArtists(document.getElementById('query').value)"/>
+		<p id="results"></p>
+	</body>
+</html>

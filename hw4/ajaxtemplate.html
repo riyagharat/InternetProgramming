@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" ecoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="846_hw4.css"/>
+		<script language="javascript" type="text/javascript" >
+			xmlhttp = new XMLHttpRequest();
+			
+			function searchArtists(artist){
+			//window.prompt(artist);
+			//	document.write(artist);
+				xmlhttp.onreadystatechange = function (){
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+						document.getElementById('results').innerHTML = xmlhttp.responseText;
+					}else{
+						document.getElementById('results').innerHTML = "<strong> Processing </strong>";		
+					}
+				}
+				
+				xmlhttp.open("GET", "https://api.spotify.com/v1/search?q=" + artist + "&type=artist", true);
+				xmlhttp.send();
+			}	
+		</script>
+	</head>
+	<body>
+		<div id="header" class="container">
+			<h1>Index Page</h1>
+			<p>Riya Gharat, N00901846, Assignment 4 </p>
+		</div>
+		<h2>Search for an Artist</h2>
+		<div id="results"></div>
+		<input id="query" type="text" value="" placeholder="Type an Artist Name" />
+		<input type="button" value="Search" onclick="searchArtists(document.getElementById('query').value)"/>
+	</body>
+</html>
